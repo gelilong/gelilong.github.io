@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="冶源液压 — 专业金属回收处理设备制造商，专注液压金属压块机、打包机研发制造，为废旧金属回收行业提供高效解决方案。">
+<title>冶源液压 | 专业金属回收处理设备制造商</title>
+<style>
+/* ===== Reset & Base ===== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  color: #1e293b;
+  background: #fafafa;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+/* ===== Custom Scrollbar ===== */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #0f172a; }
+::-webkit-scrollbar-thumb { background: #f59e0b; border-radius: 4px; }
+
+/* ===== Preloader ===== */
+.preloader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: #0a1628;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-content { text-align: center; }
+.preloader-logo { font-size: 2.5rem; font-weight: 900; color: #f59e0b; letter-spacing: 4px; margin-bottom: 1.5rem; }
+.preloader-bar {
+  width: 200px; height: 3px; background: rgba(245,158,11,0.2);
+  border-radius: 2px; overflow: hidden; margin: 0 auto;
+}
+.preloader-progress {
+  width: 0; height: 100%; background: #f59e0b;
+  border-radius: 2px; animation: preload 1.2s ease forwards;
+}
+@keyframes preload { to { width: 100%; } }
+
+/* ===== Navigation ===== */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  padding: 0 4rem;
+  background: rgba(10, 22, 40, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(245,158,11,0.15);
+  transition: all 0.3s ease;
+}
+.nav.scrolled { padding: 0 4rem; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+.nav-inner {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 80px;
+}
+.nav-logo {
+  font-size: 1.6rem; font-weight: 900; color: #fff;
+  letter-spacing: 2px; text-decoration: none; display: flex; align-items: center; gap: 0.6rem;
+}
+.nav-logo span { color: #f59e0b; }
+.nav-logo-icon { width: 36px; height: 36px; }
+
+.nav-links { display: flex; list-style: none; gap: 2.5rem; }
+.nav-links a {
+  color: rgba(255,255,255,0.75); text-decoration: none;
+  font-size: 0.95rem; font-weight: 500; transition: color 0.3s;
+  position: relative; padding: 0.3rem 0;
+}
+.nav-links a::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+  background: #f59e0b; transition: width 0.3s;
+}
+.nav-links a:hover, .nav-links a.active { color: #f59e0b; }
+.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+
+.nav-cta {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; padding: 0.65rem 1.8rem; border-radius: 50px;
+  font-size: 0.9rem; font-weight: 600; text-decoration: none;
+  transition: all 0.3s; box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+}
+.nav-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,158,11,0.4); }
+
+.nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 5px; }
+.nav-toggle span { width: 28px; height: 2px; background: #fff; transition: all 0.3s; border-radius: 2px; }
+
+/* ===== Hero Section ===== */
+.hero {
+  position: relative; height: 100vh; min-height: 700px;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: url('images/product-horizontal-yellow.jpg') center/cover no-repeat;
+  filter: brightness(0.35);
+  transform: scale(1.1);
+  animation: heroZoom 8s ease-out forwards;
+}
+@keyframes heroZoom { to { transform: scale(1); } }
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(10,22,40,0.92) 0%, rgba(10,22,40,0.7) 50%, rgba(245,158,11,0.25) 100%);
+}
+.hero-particles {
+  position: absolute; inset: 0; opacity: 0.6;
+  background: radial-gradient(circle at 20% 50%, rgba(245,158,11,0.1) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(245,158,11,0.08) 0%, transparent 40%);
+}
+.hero-content {
+  position: relative; z-index: 2; text-align: center; max-width: 900px; padding: 0 2rem;
+}
+.hero-badge {
+  display: inline-block; padding: 0.5rem 1.5rem;
+  background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 50px; color: #f59e0b; font-size: 0.9rem; font-weight: 600;
+  margin-bottom: 2rem; letter-spacing: 2px;
+  animation: fadeInUp 1s 0.3s both;
+}
+.hero h1 {
+  font-size: 4rem; font-weight: 900; color: #fff; line-height: 1.15;
+  margin-bottom: 1.5rem; letter-spacing: 2px;
+  animation: fadeInUp 1s 0.5s both;
+}
+.hero h1 span { color: #f59e0b; display: block; font-size: 2.2rem; font-weight: 600; letter-spacing: 6px; margin-top: 0.3rem; }
+.hero p {
+  font-size: 1.2rem; color: rgba(255,255,255,0.8); max-width: 650px;
+  margin: 0 auto 2.5rem; line-height: 1.8;
+  animation: fadeInUp 1s 0.7s both;
+}
+.hero-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; animation: fadeInUp 1s 0.9s both; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.95rem 2.2rem; border-radius: 50px;
+  font-size: 1rem; font-weight: 600; text-decoration: none;
+  transition: all 0.3s; cursor: pointer; border: none;
+}
+.btn-primary {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; box-shadow: 0 8px 30px rgba(245,158,11,0.35);
+}
+.btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(245,158,11,0.5); }
+.btn-outline {
+  background: transparent; color: #fff;
+  border: 2px solid rgba(255,255,255,0.3);
+}
+.btn-outline:hover { border-color: #f59e0b; color: #f59e0b; transform: translateY(-3px); }
+
+.hero-scroll {
+  position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  color: rgba(255,255,255,0.5); font-size: 0.8rem;
+  animation: bounce 2s infinite, fadeInUp 1s 1.2s both;
+}
+.hero-scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent); }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(10px); }
+}
+
+/* ===== Section Common ===== */
+.section {
+  padding: 6rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-tag {
+  display: inline-block; padding: 0.35rem 1.2rem;
+  background: rgba(245,158,11,0.1); color: #d97706;
+  border-radius: 50px; font-size: 0.85rem; font-weight: 600;
+  letter-spacing: 2px; margin-bottom: 1rem;
+}
+.section-title {
+  font-size: 2.5rem; font-weight: 800; color: #0a1628;
+  margin-bottom: 1rem; line-height: 1.3;
+}
+.section-title span { color: #f59e0b; }
+.section-desc {
+  font-size: 1.05rem; color: #64748b; max-width: 650px;
+  margin: 0 auto; line-height: 1.8;
+}
+
+/* ===== About Section ===== */
+.about {
+  background: linear-gradient(180deg, #fff 0%, #f8fafc 100%);
+}
+.about-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: center;
+}
+.about-image {
+  position: relative; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+}
+.about-image img { width: 100%; height: auto; display: block; transition: transform 0.6s; }
+.about-image:hover img { transform: scale(1.05); }
+.about-image::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(10,22,40,0.1), transparent);
+}
+.about-image-badge {
+  position: absolute; bottom: 2rem; right: -1rem; z-index: 2;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; padding: 1.2rem 2rem; border-radius: 12px;
+  text-align: center; box-shadow: 0 10px 30px rgba(245,158,11,0.3);
+}
+.about-image-badge .num { font-size: 2rem; font-weight: 900; line-height: 1; }
+.about-image-badge .label { font-size: 0.85rem; opacity: 0.9; margin-top: 0.3rem; }
+.about-text h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 1.5rem; color: #0a1628; }
+.about-text p { color: #475569; margin-bottom: 1.2rem; line-height: 1.9; font-size: 1.02rem; }
+.about-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+.about-stat {
+  text-align: center; padding: 1.5rem;
+  background: #fff; border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0; transition: transform 0.3s;
+}
+.about-stat:hover { transform: translateY(-5px); }
+.about-stat .stat-num { font-size: 2.2rem; font-weight: 900; color: #f59e0b; }
+.about-stat .stat-plus { color: #f59e0b; font-size: 1.5rem; font-weight: 700; }
+.about-stat .stat-label { color: #64748b; font-size: 0.9rem; margin-top: 0.3rem; }
+
+/* ===== Products Section ===== */
+.products { background: #0a1628; position: relative; overflow: hidden; }
+.products::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 20%, rgba(245,158,11,0.06) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 80%, rgba(245,158,11,0.04) 0%, transparent 50%);
+}
+.products .section-title { color: #fff; }
+.products .section-desc { color: rgba(255,255,255,0.6); }
+.products .section-tag { background: rgba(245,158,11,0.2); color: #fbbf24; }
+
+.product-categories { position: relative; z-index: 1; }
+.product-category { margin-bottom: 4rem; }
+.product-category:last-child { margin-bottom: 0; }
+.category-title {
+  font-size: 2rem; font-weight: 800; color: #fff;
+  margin-bottom: 0.5rem; padding-left: 0.5rem;
+  border-left: 4px solid #f59e0b;
+}
+.category-subtitle { color: rgba(255,255,255,0.55); font-size: 0.95rem; margin-bottom: 2rem; padding-left: 1rem; }
+
+.product-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.8rem;
+}
+.product-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px; overflow: hidden;
+  transition: all 0.4s; cursor: pointer;
+  position: relative;
+}
+.product-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(245,158,11,0.4);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+}
+.product-card:hover .product-card-overlay { opacity: 1; }
+.product-card-image {
+  position: relative; height: 280px; overflow: hidden;
+  background: rgba(255,255,255,0.03);
+}
+.product-card-image img {
+  width: 100%; height: 100%; object-fit: contain;
+  padding: 1.5rem; transition: transform 0.6s;
+}
+.product-card:hover .product-card-image img { transform: scale(1.08); }
+.product-card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,22,40,0.9), transparent);
+  display: flex; align-items: flex-end; padding: 1.5rem;
+  opacity: 0; transition: opacity 0.4s;
+}
+.product-card-badge {
+  position: absolute; top: 1rem; left: 1rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; padding: 0.3rem 1rem; border-radius: 50px;
+  font-size: 0.8rem; font-weight: 600; z-index: 1;
+}
+.product-card-body { padding: 1.5rem; }
+.product-card-body h4 { color: #fff; font-size: 1.15rem; margin-bottom: 0.5rem; }
+.product-card-body p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.6; }
+.product-card-specs {
+  display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1rem;
+}
+.product-spec-tag {
+  padding: 0.25rem 0.75rem; background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-radius: 50px; font-size: 0.78rem; color: #fbbf24;
+}
+.product-card-footer {
+  padding: 0 1.5rem 1.5rem; display: flex; justify-content: space-between; align-items: center;
+}
+.product-card-footer .btn-sm {
+  padding: 0.5rem 1.2rem; border-radius: 50px;
+  background: rgba(245,158,11,0.2); color: #f59e0b;
+  border: 1px solid rgba(245,158,11,0.3); font-size: 0.85rem;
+  font-weight: 600; text-decoration: none; transition: all 0.3s;
+}
+.product-card-footer .btn-sm:hover {
+  background: #f59e0b; color: #fff;
+}
+
+/* === Product Modal === */
+.product-modal {
+  position: fixed; inset: 0; z-index: 2000;
+  background: rgba(10,22,40,0.95); display: none;
+  align-items: center; justify-content: center; padding: 2rem;
+  backdrop-filter: blur(10px);
+}
+.product-modal.active { display: flex; }
+.product-modal-content {
+  background: #fff; border-radius: 20px; max-width: 900px;
+  width: 100%; max-height: 90vh; overflow-y: auto;
+  position: relative; animation: modalIn 0.4s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.modal-close {
+  position: absolute; top: 1rem; right: 1rem; z-index: 2;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(10,22,40,0.1); border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 1.2rem; color: #0a1628; transition: all 0.3s;
+}
+.modal-close:hover { background: #f59e0b; color: #fff; }
+.modal-image { width: 100%; height: 400px; overflow: hidden; background: #f1f5f9; display: flex; align-items: center; justify-content: center; }
+.modal-image img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.modal-body { padding: 2.5rem; }
+.modal-body h2 { font-size: 1.6rem; font-weight: 800; color: #0a1628; margin-bottom: 1rem; }
+.modal-body p { color: #475569; line-height: 1.9; margin-bottom: 1.5rem; }
+.modal-specs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.modal-spec-item { padding: 1rem; background: #f8fafc; border-radius: 10px; border: 1px solid #e2e8f0; }
+.modal-spec-item .spec-label { font-size: 0.8rem; color: #94a3b8; margin-bottom: 0.3rem; }
+.modal-spec-item .spec-val { font-size: 1.1rem; font-weight: 700; color: #0a1628; }
+
+/* ===== Applications Section ===== */
+.applications {
+  background: linear-gradient(180deg, #f8fafc 0%, #fff 100%);
+}
+.app-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.app-card {
+  text-align: center; padding: 2.5rem 1.5rem;
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0; transition: all 0.3s;
+}
+.app-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(245,158,11,0.12); border-color: #f59e0b; }
+.app-icon {
+  width: 70px; height: 70px; margin: 0 auto 1.2rem;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.05));
+  border-radius: 20px; display: flex; align-items: center; justify-content: center;
+  font-size: 2rem;
+}
+.app-card h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #0a1628; }
+.app-card p { color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+
+/* ===== Advantages Section ===== */
+.advantages {
+  background: #0a1628; position: relative;
+}
+.advantages .section-title { color: #fff; }
+.advantages .section-desc { color: rgba(255,255,255,0.6); }
+.advantages .section-tag { background: rgba(245,158,11,0.2); color: #fbbf24; }
+
+.adv-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem; }
+.adv-card {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px; padding: 2.5rem 2rem; transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.adv-card::before {
+  content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 0;
+  background: #f59e0b; transition: height 0.4s;
+}
+.adv-card:hover::before { height: 100%; }
+.adv-card:hover { border-color: rgba(245,158,11,0.3); transform: translateY(-5px); }
+.adv-number { font-size: 3rem; font-weight: 900; color: rgba(245,158,11,0.15); position: absolute; top: 1rem; right: 1.5rem; }
+.adv-icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.adv-card h4 { color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; }
+.adv-card p { color: rgba(255,255,255,0.6); font-size: 0.95rem; line-height: 1.7; }
+
+/* ===== Cases Section ===== */
+.cases-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 2rem; }
+.case-card {
+  background: #fff; border-radius: 16px; overflow: hidden;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+  transition: all 0.3s;
+}
+.case-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+.case-image {
+  height: 220px; background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+  display: flex; align-items: center; justify-content: center; font-size: 5rem;
+  position: relative; overflow: hidden;
+}
+.case-image::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(10,22,40,0.6), transparent);
+}
+.case-region {
+  position: absolute; bottom: 1rem; left: 1rem; z-index: 1;
+  color: #fff; font-size: 0.85rem; font-weight: 600;
+  padding: 0.3rem 1rem; background: rgba(0,0,0,0.4); border-radius: 50px;
+}
+.case-body { padding: 1.8rem; }
+.case-body h4 { font-size: 1.15rem; font-weight: 700; color: #0a1628; margin-bottom: 0.6rem; }
+.case-body p { color: #64748b; font-size: 0.9rem; line-height: 1.6; }
+.case-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.case-tag { padding: 0.2rem 0.7rem; background: #fef3c7; color: #92400e; border-radius: 50px; font-size: 0.75rem; font-weight: 600; }
+
+/* ===== Contact Section ===== */
+.contact { background: #f8fafc; }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+.contact-info h3 { font-size: 1.8rem; font-weight: 700; color: #0a1628; margin-bottom: 1rem; }
+.contact-info > p { color: #64748b; margin-bottom: 2rem; line-height: 1.8; }
+.contact-items { display: grid; gap: 1.2rem; margin-bottom: 2rem; }
+.contact-item {
+  display: flex; gap: 1rem; padding: 1.2rem;
+  background: #fff; border-radius: 12px;
+  border: 1px solid #e2e8f0; transition: all 0.3s;
+}
+.contact-item:hover { border-color: #f59e0b; }
+.contact-item-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.05));
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+}
+.contact-item-text h5 { font-size: 0.95rem; font-weight: 600; color: #0a1628; margin-bottom: 0.2rem; }
+.contact-item-text span { font-size: 0.9rem; color: #64748b; }
+
+.contact-form {
+  background: #fff; padding: 2.5rem; border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;
+}
+.contact-form h3 { font-size: 1.5rem; font-weight: 700; color: #0a1628; margin-bottom: 1.5rem; }
+.form-group { margin-bottom: 1.2rem; }
+.form-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #334155; margin-bottom: 0.4rem; }
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%; padding: 0.85rem 1rem;
+  border: 1px solid #e2e8f0; border-radius: 10px;
+  font-size: 0.95rem; font-family: inherit; color: #1e293b;
+  transition: border-color 0.3s; outline: none; background: #f8fafc;
+}
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+}
+.form-group textarea { resize: vertical; min-height: 120px; }
+.form-submit {
+  width: 100%; padding: 1rem;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; border: none; border-radius: 12px;
+  font-size: 1rem; font-weight: 700; cursor: pointer;
+  transition: all 0.3s; box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+}
+.form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(245,158,11,0.4); }
+.form-success {
+  display: none; text-align: center; padding: 3rem 1rem;
+}
+.form-success h4 { font-size: 1.5rem; color: #059669; margin-bottom: 0.5rem; }
+.form-success p { color: #64748b; }
+
+/* ===== Footer ===== */
+.footer {
+  background: #0a1628; color: rgba(255,255,255,0.6);
+  padding: 4rem 2rem 2rem;
+}
+.footer-grid {
+  max-width: 1400px; margin: 0 auto;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem; padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 2rem;
+}
+.footer-brand h3 { font-size: 1.5rem; color: #fff; margin-bottom: 0.8rem; }
+.footer-brand h3 span { color: #f59e0b; }
+.footer-brand p { line-height: 1.8; font-size: 0.9rem; }
+.footer-col h4 { color: #fff; font-size: 1rem; font-weight: 700; margin-bottom: 1.2rem; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.6rem; }
+.footer-col ul li a { color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+.footer-col ul li a:hover { color: #f59e0b; }
+.footer-bottom {
+  max-width: 1400px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 1rem; font-size: 0.85rem;
+}
+.footer-bottom a { color: #f59e0b; text-decoration: none; }
+
+/* ===== Animations ===== */
+.reveal {
+  opacity: 0; transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.17, 0.85, 0.44, 1);
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== Back to Top ===== */
+.back-to-top {
+  position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+  width: 48px; height: 48px; border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.back-to-top.visible { opacity: 1; visibility: visible; }
+.back-to-top:hover { transform: translateY(-5px); }
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+  .about-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 768px) {
+  .nav { padding: 0 1.5rem; }
+  .nav-links { display: none; position: fixed; top: 80px; left: 0; right: 0; background: rgba(10,22,40,0.98); flex-direction: column; padding: 2rem; gap: 1.5rem; border-bottom: 1px solid rgba(245,158,11,0.2); }
+  .nav-links.open { display: flex; }
+  .nav-cta { display: none; }
+  .nav-toggle { display: flex; }
+  .hero h1 { font-size: 2.5rem; }
+  .hero h1 span { font-size: 1.5rem; letter-spacing: 3px; }
+  .section { padding: 4rem 1.2rem; }
+  .section-title { font-size: 1.8rem; }
+  .product-grid { grid-template-columns: 1fr; }
+  .cases-grid { grid-template-columns: 1fr; }
+  .about-stats { grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+  .about-stat { padding: 1rem; }
+  .about-stat .stat-num { font-size: 1.5rem; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-bottom { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-content">
+    <div class="preloader-logo">冶源液压</div>
+    <div class="preloader-bar"><div class="preloader-progress"></div></div>
+  </div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <svg class="nav-logo-icon" viewBox="0 0 36 36"><rect x="4" y="12" width="28" height="16" rx="3" fill="none" stroke="#f59e0b" stroke-width="2.5"/><rect x="10" y="8" width="8" height="6" rx="1" fill="none" stroke="#f59e0b" stroke-width="2"/><rect x="20" y="8" width="8" height="6" rx="1" fill="none" stroke="#f59e0b" stroke-width="2"/><circle cx="18" cy="20" r="4" fill="#f59e0b"/></svg>
+      冶源<span>液压</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home" class="active">首页</a></li>
+      <li><a href="#about">关于我们</a></li>
+      <li><a href="#products">产品中心</a></li>
+      <li><a href="#applications">应用领域</a></li>
+      <li><a href="#advantages">核心优势</a></li>
+      <li><a href="#cases">客户案例</a></li>
+      <li><a href="#contact">联系我们</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">获取报价</a>
+    <div class="nav-toggle" id="navToggle">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-particles"></div>
+  <div class="hero-content">
+    <div class="hero-badge">金属回收处理 · 专业设备制造商</div>
+    <h1>智能液压回收设备<span>让废金属重获新生</span></h1>
+    <p>冶源液压专注金属压块机、金属打包机研发与制造 15 年，为全球 30+ 国家提供高效、节能、环保的金属回收处理整体解决方案</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">█ 查看产品</a>
+      <a href="#contact" class="btn btn-outline">获取免费方案</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>向下滚动</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="section about" id="about">
+  <div class="section-header reveal">
+    <span class="section-tag">关于冶源</span>
+    <h2 class="section-title">中国智造，<span>服务全球</span></h2>
+    <p class="section-desc">冶源液压设备有限公司成立于 2011 年，总部位于江苏江阴，是国内领先的液压金属回收设备制造商</p>
+  </div>
+  <div class="about-grid reveal">
+    <div class="about-image">
+      <img src="images/product-horizontal-yellow.jpg" alt="冶源液压工厂设备">
+      <div class="about-image-badge">
+        <div class="num">15+</div>
+        <div class="label">年行业经验</div>
+      </div>
+    </div>
+    <div class="about-text">
+      <h3>以技术创新驱动金属回收产业升级</h3>
+      <p>冶源液压深耕金属回收处理领域十五年，始终秉持"高效回收、绿色循环"的企业使命。公司拥有 8000㎡ 现代化生产基地，配备全自动数控加工中心、激光切割机、焊接机器人等先进设备，年产能超过 500 台套。</p>
+      <p>我们的技术团队由 20 余名资深液压工程师组成，获得 30+ 项国家专利认证，产品通过 ISO 9001、CE 等国际认证，远销东南亚、中东、非洲、南美等 30 多个国家和地区。</p>
+      <div class="about-stats">
+        <div class="about-stat">
+          <div><span class="stat-num" data-count="8000">0</span><span class="stat-plus">㎡</span></div>
+          <div class="stat-label">生产基地</div>
+        </div>
+        <div class="about-stat">
+          <div><span class="stat-num" data-count="500">0</span><span class="stat-plus">+</span></div>
+          <div class="stat-label">年产设备</div>
+        </div>
+        <div class="about-stat">
+          <div><span class="stat-num" data-count="30">0</span><span class="stat-plus">+</span></div>
+          <div class="stat-label">专利技术</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Products Section -->
+<section class="section products" id="products" style="max-width:100%; padding-left:4rem; padding-right:4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">产品中心</span>
+    <h2 class="section-title">智能回收设备，<span>铸就卓越品质</span></h2>
+    <p class="section-desc">从立式打包机到卧式压块机，覆盖金属回收全场景需求</p>
+  </div>
+  <div class="product-categories">
+
+    <!-- 卧式系列 -->
+    <div class="product-category reveal">
+      <h3 class="category-title">卧式液压金属压块机系列</h3>
+      <p class="category-subtitle">大中型金属废料的高效压缩解决方案，适用于回收站、钢厂、铸造厂等大批量处理场景</p>
+      <div class="product-grid">
+        <div class="product-card" onclick="openModal('horizontal-yellow')">
+          <div class="product-card-image">
+            <img src="images/product-horizontal-yellow.jpg" alt="Y81-250T 卧式金属压块机">
+            <div class="product-card-badge">热销</div>
+            <div class="product-card-overlay"></div>
+          </div>
+          <div class="product-card-body">
+            <h4>Y81-250T 卧式金属压块机</h4>
+            <p>标准工业黄色涂装，适用于废铁、废铝、废铜等散装金属废料的高效压缩打包</p>
+            <div class="product-card-specs">
+              <span class="product-spec-tag">压力 250T</span>
+              <span class="product-spec-tag">包块 300×300mm</span>
+              <span class="product-spec-tag">6-8 吨/小时</span>
+            </div>
+          </div>
+          <div class="product-card-footer">
+            <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">型号: Y81-250T</span>
+            <span class="btn-sm">了解详情 →</span>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="openModal('horizontal-red')">
+          <div class="product-card-image">
+            <img src="images/product-horizontal-red.jpg" alt="Y81-315T 重型金属压块机">
+            <div class="product-card-badge">旗舰</div>
+            <div class="product-card-overlay"></div>
+          </div>
+          <div class="product-card-body">
+            <h4>Y81-315T 重型金属压块机</h4>
+            <p>深红工业涂装，315吨超大压力，专为高硬度金属废料设计，适合钢厂大规模处理</p>
+            <div class="product-card-specs">
+              <span class="product-spec-tag">压力 315T</span>
+              <span class="product-spec-tag">包块 400×400mm</span>
+              <span class="product-spec-tag">10-15 吨/小时</span>
+            </div>
+          </div>
+          <div class="product-card-footer">
+            <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">型号: Y81-315T</span>
+            <span class="btn-sm">了解详情 →</span>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="openModal('horizontal-green')">
+          <div class="product-card-image">
+            <img src="images/product-horizontal-green.jpg" alt="Y81-200T 经济型金属压块机">
+            <div class="product-card-badge">高性价比</div>
+            <div class="product-card-overlay"></div>
+          </div>
+          <div class="product-card-body">
+            <h4>Y81-200T 经济型金属压块机</h4>
+            <p>环保绿涂装，200吨压力满足中小型回收企业日常需求，能耗低、维护简便</p>
+            <div class="product-card-specs">
+              <span class="product-spec-tag">压力 200T</span>
+              <span class="product-spec-tag">包块 250×250mm</span>
+              <span class="product-spec-tag">4-6 吨/小时</span>
+            </div>
+          </div>
+          <div class="product-card-footer">
+            <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">型号: Y81-200T</span>
+            <span class="btn-sm">了解详情 →</span>
+          </div>
+        </div>
+
+        <div class="product-card" onclick="openModal('horizontal-gray')">
+          <div class="product-card-image">
+            <img src="images/product-horizontal-gray.jpg" alt="Y81-400T 超重型压块机">
+            <div class="product-card-badge">工业级</div>
+            <div class="product-card-overlay"></div>
+          </div>
+          <div class="product-card-body">
+            <h4>Y81-400T 超重型压块机</h4>
+            <p>银灰工业涂装，400吨超强压力，处理重型废钢、汽车拆解废料，是大型回收中心首选</p>
+            <div class="product-card-specs">
+              <span class="product-spec-tag">压力 400T</span>
+              <span class="product-spec-tag">包块 500×500mm</span>
+              <span class="product-spec-tag">15-20 吨/小时</span>
+            </div>
+          </div>
+          <div class="product-card-footer">
+            <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">型号: Y81-400T</span>
+            <span class="btn-sm">了解详情 →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 立式系列 -->
+    <div class="product-category reveal">
+      <h3 class="category-title">立式液压打包机系列</h3>
+      <p class="category-subtitle">占地小、效率高的中小型金属打包方案，适合空间有限的回收站点和加工车间</p>
+      <div class="product-grid">
+        <div class="product-card" onclick="openModal('vertical')">
+          <div class="product-card-image">
+            <img src="images/product-vertical.jpg" alt="Y82-120T 立式液压打包机">
+            <div class="product-card-badge">畅销款</div>
+            <div class="product-card-overlay"></div>
+          </div>
+          <div class="product-card-body">
+            <h4>Y82-120T 立式液压打包机</h4>
+            <p>立式结构设计，占地面积小，操作简便，适用于中小型金属回收站、五金加工厂的日常打包需求</p>
+            <div class="product-card-specs">
+              <span class="product-spec-tag">压力 120T</span>
+              <span class="product-spec-tag">3-5 吨/小时</span>
+              <span class="product-spec-tag">占地 2.5㎡</span>
+            </div>
+          </div>
+          <div class="product-card-footer">
+            <span style="color:rgba(255,255,255,0.4);font-size:0.8rem">型号: Y82-120T</span>
+            <span class="btn-sm">了解详情 →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Applications Section -->
+<section class="section applications" id="applications">
+  <div class="section-header reveal">
+    <span class="section-tag">应用领域</span>
+    <h2 class="section-title">覆盖<span>全场景</span>金属回收需求</h2>
+    <p class="section-desc">我们的设备在多个行业广泛应用，助力客户实现废旧金属的高效回收与资源再生</p>
+  </div>
+  <div class="app-grid reveal">
+    <div class="app-card">
+      <div class="app-icon">🏭</div>
+      <h4>废钢回收站</h4>
+      <p>快速压缩各类废旧钢铁，降低运输成本，提升回收效率</p>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">⚙️</div>
+      <h4>铸造工厂</h4>
+      <p>处理铸造废料、边角料，实现厂内金属废料的循环利用</p>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🚗</div>
+      <h4>汽车拆解</h4>
+      <p>压缩拆解后的车身板材、零部件，满足汽车回收行业需求</p>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🏗️</div>
+      <h4>建筑拆迁</h4>
+      <p>处理建筑工地的废旧钢筋、脚手架管材，便于集中回收</p>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">🔩</div>
+      <h4>五金加工</h4>
+      <p>压缩生产过程中产生的不锈钢、铝、铜等金属刨花和边料</p>
+    </div>
+    <div class="app-card">
+      <div class="app-icon">♻️</div>
+      <h4>城市固废处理</h4>
+      <p>配合城市垃圾分类，提取并压缩生活垃圾中的金属成分</p>
+    </div>
+  </div>
+</section>
+
+<!-- Advantages Section -->
+<section class="section advantages" id="advantages" style="max-width:100%; padding-left:4rem; padding-right:4rem;">
+  <div class="section-header reveal">
+    <span class="section-tag">核心优势</span>
+    <h2 class="section-title">为什么选择<span>冶源液压</span>？</h2>
+    <p class="section-desc">15 年专注，我们深知客户最需要的是什么</p>
+  </div>
+  <div class="adv-grid reveal">
+    <div class="adv-card">
+      <div class="adv-number">01</div>
+      <div class="adv-icon">🔧</div>
+      <h4>高端制造工艺</h4>
+      <p>采用瑞典进口高强度耐磨钢板，德国力士乐液压系统，关键部件寿命超行业标准 30%</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-number">02</div>
+      <div class="adv-icon">⚡</div>
+      <h4>智能节能系统</h4>
+      <p>自主研发的智能变频控制技术，同等产能节能 25%，降低运营成本</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-number">03</div>
+      <div class="adv-icon">🎯</div>
+      <h4>定制化解决方案</h4>
+      <p>根据物料种类、处理量、场地条件量身定制设备配置，确保最优回收效果</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-number">04</div>
+      <div class="adv-icon">🌐</div>
+      <h4>全球服务网络</h4>
+      <p>国内 15 个服务网点，海外 8 个国家设立办事处，24 小时内响应售后需求</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-number">05</div>
+      <div class="adv-icon">🏅</div>
+      <h4>国际认证品质</h4>
+      <p>通过 ISO 9001 质量管理体系、CE 安全认证，产品符合欧盟环保标准</p>
+    </div>
+    <div class="adv-card">
+      <div class="adv-number">06</div>
+      <div class="adv-icon">🤝</div>
+      <h4>终身技术支持</h4>
+      <p>从设备选型、安装调试到操作培训、定期巡检，提供全生命周期服务保障</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cases Section -->
+<section class="section cases" id="cases">
+  <div class="section-header reveal">
+    <span class="section-tag">客户案例</span>
+    <h2 class="section-title">合作伙伴的<span>选择与信赖</span></h2>
+    <p class="section-desc">冶源设备已服务全球 500+ 客户，以下是部分典型案例</p>
+  </div>
+  <div class="cases-grid reveal">
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #1e40af, #3b82f6); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        INDONESIA
+        <div class="case-region">🇮🇩 印度尼西亚</div>
+      </div>
+      <div class="case-body">
+        <h4>雅加达大型废钢回收中心</h4>
+        <p>配置 2 台 Y81-315T 和 1 台 Y81-400T 卧式压块机，日均处理废钢 80 吨，压缩比达 8:1，运输成本降低 60%。</p>
+        <div class="case-tags">
+          <span class="case-tag">废钢</span>
+          <span class="case-tag">卧式压块机</span>
+          <span class="case-tag">日均80吨</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #b91c1c, #ef4444); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        NIGERIA
+        <div class="case-region">🇳🇬 尼日利亚</div>
+      </div>
+      <div class="case-body">
+        <h4>拉各斯汽车拆解回收项目</h4>
+        <p>采用 3 台 Y81 系列设备处理汽车拆解废料，月处理量超 2000 吨，帮助当地建立完整的废旧汽车回收产业链。</p>
+        <div class="case-tags">
+          <span class="case-tag">汽车拆解</span>
+          <span class="case-tag">月处理2000吨</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #15803d, #22c55e); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        VIETNAM
+        <div class="case-region">🇻🇳 越南</div>
+      </div>
+      <div class="case-body">
+        <h4>胡志明市有色金属回收公司</h4>
+        <p>配置 Y81-200T 和 Y82-120T 组合方案，分别处理铝和铜废料，设备运行 3 年零故障，客户复购 2 台。</p>
+        <div class="case-tags">
+          <span class="case-tag">有色金属</span>
+          <span class="case-tag">铝铜回收</span>
+          <span class="case-tag">零故障</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #b45309, #f59e0b); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        江苏 · 苏州
+        <div class="case-region">🇨🇳 中国江苏</div>
+      </div>
+      <div class="case-body">
+        <h4>苏州大型铸造企业厂内回收线</h4>
+        <p>定制化产线集成方案，4 台 Y81-315T 配套自动输送系统，实现铸造废料从产生到打包的全自动处理。</p>
+        <div class="case-tags">
+          <span class="case-tag">铸造</span>
+          <span class="case-tag">自动化产线</span>
+          <span class="case-tag">4台联动</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #1e3a5f, #2563eb); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        MEXICO
+        <div class="case-region">🇲🇽 墨西哥</div>
+      </div>
+      <div class="case-body">
+        <h4>蒙特雷钢铁回收集团</h4>
+        <p>采购 Y81-400T 超重型压块机用于处理钢厂废钢，单台设备日均处理 18 吨，投资回报周期仅 8 个月。</p>
+        <div class="case-tags">
+          <span class="case-tag">钢铁厂</span>
+          <span class="case-tag">超重型</span>
+          <span class="case-tag">8个月回本</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-card">
+      <div class="case-image" style="background:linear-gradient(135deg, #4a044e, #a855f7); display:flex; align-items:center; justify-content:center; font-size:2rem; font-weight:900; color:rgba(255,255,255,0.3);">
+        广东 · 佛山
+        <div class="case-region">🇨🇳 中国广东</div>
+      </div>
+      <div class="case-body">
+        <h4>佛山城市固废分类处理中心</h4>
+        <p>配备 Y82-120T 立式打包机处理分类后的金属废物，占地面积小，完美适配城市固废处理场景。</p>
+        <div class="case-tags">
+          <span class="case-tag">城市固废</span>
+          <span class="case-tag">立式打包机</span>
+          <span class="case-tag">占地小</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="section contact" id="contact">
+  <div class="section-header reveal">
+    <span class="section-tag">联系我们</span>
+    <h2 class="section-title">期待与您<span>合作共赢</span></h2>
+    <p class="section-desc">无论您需要设备选型建议，还是想获取定制化方案，我们随时为您服务</p>
+  </div>
+  <div class="contact-grid reveal">
+    <div class="contact-info">
+      <h3>让专业的人做专业的事</h3>
+      <p>从第一次咨询到设备稳定运行，冶源液压的服务团队将全程陪伴。我们不仅提供设备，更提供完整的金属回收解决方案。</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-item-icon">📞</div>
+          <div class="contact-item-text">
+            <h5>销售热线</h5>
+            <span>400-888-6688 / +86 510-8688-6688</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📧</div>
+          <div class="contact-item-text">
+            <h5>电子邮箱</h5>
+            <span>sales@yeyuan-hydraulic.com</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">📍</div>
+          <div class="contact-item-text">
+            <h5>公司地址</h5>
+            <span>江苏省江阴市高新技术开发区机械装备产业园 88 号</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-item-icon">🕐</div>
+          <div class="contact-item-text">
+            <h5>工作时间</h5>
+            <span>周一至周六 8:00 - 18:00（北京时间）</span>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:1.5rem; padding:1.5rem; background:#fff; border-radius:12px; border:1px solid #e2e8f0;">
+        <h5 style="font-weight:700; color:#0a1628; margin-bottom:0.5rem;">🚀 快速响应承诺</h5>
+        <p style="color:#64748b; font-size:0.9rem; line-height:1.7;">工作日 2 小时内回复咨询 | 国内 48 小时工程师上门 | 海外 72 小时远程诊断支持</p>
+      </div>
+    </div>
+    <div class="contact-form" id="contactFormContainer">
+      <h3>在线询价 / 获取方案</h3>
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-group">
+          <label>您的姓名 *</label>
+          <input type="text" placeholder="请输入您的姓名" required>
+        </div>
+        <div class="form-group">
+          <label>联系电话 *</label>
+          <input type="tel" placeholder="请输入您的联系电话" required>
+        </div>
+        <div class="form-group">
+          <label>电子邮箱</label>
+          <input type="email" placeholder="请输入您的电子邮箱">
+        </div>
+        <div class="form-group">
+          <label>咨询意向 *</label>
+          <select required>
+            <option value="">请选择</option>
+            <option>设备采购咨询</option>
+            <option>获取报价方案</option>
+            <option>技术参数咨询</option>
+            <option>售后服务需求</option>
+            <option>成为代理商</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>留言内容</label>
+          <textarea placeholder="请描述您的需求，例如：处理的物料类型、预计日处理量、场地条件等..."></textarea>
+        </div>
+        <button type="submit" class="form-submit">▸ 提交咨询</button>
+      </form>
+      <div class="form-success" id="formSuccess">
+        <div style="font-size:3rem; margin-bottom:1rem;">✅</div>
+        <h4>提交成功！</h4>
+        <p>感谢您的咨询，我们的销售工程师将在 2 小时内与您联系</p>
+        <button class="btn btn-primary" onclick="resetForm()" style="margin-top:1.5rem;">继续咨询</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>冶源<span>液压</span></h3>
+      <p>专注金属回收处理设备 15 年<br>为全球客户提供高效、节能、环保的金属回收解决方案</p>
+    </div>
+    <div class="footer-col">
+      <h4>产品中心</h4>
+      <ul>
+        <li><a href="#">卧式金属压块机</a></li>
+        <li><a href="#">立式液压打包机</a></li>
+        <li><a href="#">金属剪切机</a></li>
+        <li><a href="#">撕碎破碎机</a></li>
+        <li><a href="#">辅助配套设备</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>快速链接</h4>
+      <ul>
+        <li><a href="#about">关于我们</a></li>
+        <li><a href="#products">产品中心</a></li>
+        <li><a href="#applications">应用领域</a></li>
+        <li><a href="#cases">客户案例</a></li>
+        <li><a href="#contact">联系我们</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>联系方式</h4>
+      <ul>
+        <li><a>400-888-6688</a></li>
+        <li><a>sales@yeyuan-hydraulic.com</a></li>
+        <li><a>江苏省江阴市高新区</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 冶源液压设备有限公司 Yeyuan Hydraulic Equipment Co., Ltd. 版权所有</span>
+    <span>苏ICP备2024XXXXXXXX号-1 | <a href="#">隐私政策</a></span>
+  </div>
+</footer>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0, behavior:'smooth'})">↑</button>
+
+<!-- Product Modal -->
+<div class="product-modal" id="productModal" onclick="if(event.target===this)closeModal()">
+  <div class="product-modal-content" id="modalContent"></div>
+</div>
+
+<script>
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('preloader').classList.add('hidden');
+  }, 1500);
+});
+
+// Navigation scroll effect
+const nav = document.getElementById('nav');
+const backToTop = document.getElementById('backToTop');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+  backToTop.classList.toggle('visible', window.scrollY > 600);
+
+  // Active nav link
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  let current = '';
+  sections.forEach(s => {
+    const top = s.offsetTop - 120;
+    if (window.scrollY >= top) current = s.getAttribute('id');
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// Mobile nav toggle
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+navToggle.addEventListener('click', () => {
+  navLinks.classList.toggle('open');
+});
+navLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+  });
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      // Trigger counter animation
+      entry.target.querySelectorAll('[data-count]').forEach(el => {
+        if (!el.dataset.animated) {
+          animateCounter(el);
+          el.dataset.animated = 'true';
+        }
+      });
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Counter animation
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  const duration = 2000;
+  const start = performance.now();
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    el.textContent = Math.floor(eased * target);
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// Product modal
+const productData = {
+  'horizontal-yellow': {
+    title: 'Y81-250T 卧式金属压块机',
+    image: 'images/product-horizontal-yellow.jpg',
+    desc: 'Y81-250T 是冶源液压的主打机型，采用双主缸结构配合高压液压系统，250吨大压力可快速将松散金属废料压缩成致密包块。整机采用高强度钢板焊接框架，配备 PLC 智能控制系统，操作简便，性能稳定。',
+    specs: [
+      { label: '公称压力', val: '2500 kN (250T)' },
+      { label: '料箱尺寸', val: '2000×1400×900mm' },
+      { label: '包块尺寸', val: '300×300mm（可调）' },
+      { label: '生产效率', val: '6-8 吨/小时' },
+      { label: '电机功率', val: '37 kW' },
+      { label: '整机重量', val: '18.5 吨' },
+    ]
+  },
+  'horizontal-red': {
+    title: 'Y81-315T 重型金属压块机',
+    image: 'images/product-horizontal-red.jpg',
+    desc: 'Y81-315T 是为大型回收中心设计的高产能旗舰机型，315吨强大压力可处理各类高硬度金属废料。采用三主缸设计，配合大容量料箱和自动推包系统，单班次产能可达 100 吨以上。',
+    specs: [
+      { label: '公称压力', val: '3150 kN (315T)' },
+      { label: '料箱尺寸', val: '2500×1600×1000mm' },
+      { label: '包块尺寸', val: '400×400mm（可调）' },
+      { label: '生产效率', val: '10-15 吨/小时' },
+      { label: '电机功率', val: '55 kW' },
+      { label: '整机重量', val: '26 吨' },
+    ]
+  },
+  'horizontal-green': {
+    title: 'Y81-200T 经济型金属压块机',
+    image: 'images/product-horizontal-green.jpg',
+    desc: 'Y81-200T 经济型压块机专为中小回收企业设计，在保证核心性能的同时优化了制造成本。200吨压力满足大多数金属废料处理需求，能耗低、操作简单、维护方便，是入门级回收设备的最佳选择。',
+    specs: [
+      { label: '公称压力', val: '2000 kN (200T)' },
+      { label: '料箱尺寸', val: '1800×1200×800mm' },
+      { label: '包块尺寸', val: '250×250mm（可调）' },
+      { label: '生产效率', val: '4-6 吨/小时' },
+      { label: '电机功率', val: '30 kW' },
+      { label: '整机重量', val: '14 吨' },
+    ]
+  },
+  'horizontal-gray': {
+    title: 'Y81-400T 超重型压块机',
+    image: 'images/product-horizontal-gray.jpg',
+    desc: 'Y81-400T 是冶源液压的顶级工业级压块机，400吨压力轻松应对重型废钢、船舶拆解废料等高难度物料。全自动伺服液压系统，智能负载检测，确保在高强度连续作业下依然保持卓越性能和长寿命。',
+    specs: [
+      { label: '公称压力', val: '4000 kN (400T)' },
+      { label: '料箱尺寸', val: '2800×1800×1200mm' },
+      { label: '包块尺寸', val: '500×500mm（可调）' },
+      { label: '生产效率', val: '15-20 吨/小时' },
+      { label: '电机功率', val: '75 kW' },
+      { label: '整机重量', val: '35 吨' },
+    ]
+  },
+  'vertical': {
+    title: 'Y82-120T 立式液压打包机',
+    image: 'images/product-vertical.jpg',
+    desc: 'Y82-120T 立式液压打包机采用垂直压缩结构，占地面积小、操作高度合理。120吨压力配合优化的压缩腔设计，适用于废钢、铝、铜等各类金属废料的打包处理。特别适合场地有限的中小回收站和五金加工车间。',
+    specs: [
+      { label: '公称压力', val: '1200 kN (120T)' },
+      { label: '料箱尺寸', val: '1000×800×600mm' },
+      { label: '包块尺寸', val: '300×300mm（可调）' },
+      { label: '生产效率', val: '3-5 吨/小时' },
+      { label: '电机功率', val: '15 kW' },
+      { label: '整机重量', val: '5.5 吨' },
+    ]
+  }
+};
+
+function openModal(key) {
+  const data = productData[key];
+  if (!data) return;
+  const modal = document.getElementById('productModal');
+  const content = document.getElementById('modalContent');
+  content.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-image"><img src="${data.image}" alt="${data.title}"></div>
+    <div class="modal-body">
+      <h2>${data.title}</h2>
+      <p>${data.desc}</p>
+      <h4 style="font-size:1.1rem;font-weight:700;color:#0a1628;margin-bottom:1rem;">技术参数</h4>
+      <div class="modal-specs-grid">
+        ${data.specs.map(s => `<div class="modal-spec-item"><div class="spec-label">${s.label}</div><div class="spec-val">${s.val}</div></div>`).join('')}
+      </div>
+      <a href="#contact" class="btn btn-primary" onclick="closeModal()" style="display:inline-flex;">📋 获取报价</a>
+    </div>
+  `;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('productModal').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+// Contact form
+function handleSubmit(e) {
+  e.preventDefault();
+  document.getElementById('contactForm').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+function resetForm() {
+  document.getElementById('contactForm').style.display = 'block';
+  document.getElementById('formSuccess').style.display = 'none';
+  document.getElementById('contactForm').reset();
+}
+</script>
+
+</body>
+</html>
