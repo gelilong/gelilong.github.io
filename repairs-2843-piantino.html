@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2843 Piantino Circle — Repairs & Fixed Assets & Improvements 完整报告</title>
+<style>
+
+  :root { --bg: #fff; --text: #222; --accent: #2563eb; --accent-light: #eff6ff; --border: #e5e7eb; --row-even: #f9fafb; --cat-repair: #dc2626; --cat-improvement: #2563eb; --cat-appliance: #7c3aed; --cat-hoa: #f59e0b; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 40px 24px; line-height: 1.6; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin-bottom: 4px; }
+  .subtitle { color: #6b7280; font-size: 0.95rem; margin-bottom: 8px; }
+  .address { color: #4b5563; font-size: 0.9rem; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  h2 { font-size: 1.25rem; margin: 32px 0 12px; padding: 8px 16px; background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 4px 4px 0; }
+  h3.subitem { font-size: 0.95rem; margin: 16px 0 8px; padding: 4px 12px; color: #6b7280; font-weight: 600; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin-bottom: 12px; }
+  th { background: #f3f4f6; text-align: left; padding: 10px 12px; font-weight: 600; border-bottom: 2px solid var(--border); white-space: nowrap; }
+  td { padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  tr:nth-child(even) td { background: var(--row-even); }
+  .amount { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .type-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.78rem; font-weight: 500; white-space: nowrap; }
+  .type-repair { background: #fef2f2; color: #dc2626; }
+  .type-improvement { background: #eff6ff; color: #2563eb; }
+  .type-appliance { background: #f5f3ff; color: #7c3aed; }
+  .type-hoa { background: #fffbeb; color: #f59e0b; }
+  .type-supplies { background: #ecfeff; color: #0891b2; }
+  .type-cleaning { background: #ecfdf5; color: #059669; }
+  .year-total { text-align: right; font-weight: 700; font-size: 0.95rem; padding: 10px 12px; background: #f0f9ff; border-top: 2px solid var(--accent); }
+  .grand-total { font-size: 1.1rem; text-align: right; padding: 14px 16px; margin-top: 24px; background: #1e3a5f; color: #fff; border-radius: 8px; }
+  .note { color: #6b7280; font-size: 0.85rem; margin-top: 4px; margin-bottom: 20px; }
+  .source { font-size: 0.78rem; color: #9ca3af; }
+  .new-badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+  .detail-note { font-size: 0.82rem; color: #6b7280; margin: 4px 0 12px 12px; border-left: 2px solid #e5e7eb; padding-left: 12px; }
+
+/* === Section 2: Category Summary === */
+
+  :root { --bg: #fff; --text: #222; --accent: #2563eb; --accent-light: #eff6ff; --border: #e5e7eb; --row-even: #f9fafb; --cat-repair: #dc2626; --cat-improvement: #2563eb; --cat-appliance: #7c3aed; --cat-hoa: #f59e0b; --cat-supplies: #0891b2; --cat-cleaning: #059669; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 40px 24px; line-height: 1.6; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  h1 { font-size: 1.75rem; margin-bottom: 4px; }
+  .subtitle { color: #6b7280; font-size: 0.95rem; margin-bottom: 8px; }
+  .address { color: #4b5563; font-size: 0.9rem; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+  .summary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .summary-card { background: linear-gradient(135deg, #f8fafc, #fff); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+  .summary-card h3 { font-size: 1rem; color: #6b7280; margin-bottom: 8px; }
+  .summary-card .big-number { font-size: 2rem; font-weight: 700; }
+  .c-red { color: #dc2626; } .c-blue { color: #2563eb; } .c-purple { color: #7c3aed; } .c-teal { color: #0891b2; } .c-green { color: #059669; } .c-amber { color: #f59e0b; }
+  h2 { font-size: 1.2rem; margin: 32px 0 12px; padding: 8px 16px; background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 4px 4px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.92rem; margin-bottom: 24px; }
+  th { background: #f3f4f6; text-align: left; padding: 10px 12px; font-weight: 600; border-bottom: 2px solid var(--border); }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+  tr:nth-child(even) td { background: var(--row-even); }
+  .amount { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+  .subtotal-row td { font-weight: 700; background: #f0f9ff; border-top: 2px solid var(--accent); }
+  .grand-total-box { background: linear-gradient(135deg, #1e3a5f, #1e40af); color: #fff; border-radius: 16px; padding: 28px 32px; margin: 32px 0; }
+  .grand-total-box h2 { background: none; border: none; color: #fff; font-size: 1.1rem; margin: 0 0 16px; padding: 0; }
+  .grand-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+  .grand-item { text-align: center; padding: 12px; background: rgba(255,255,255,0.1); border-radius: 10px; }
+  .grand-item .label { font-size: 0.78rem; opacity: 0.8; margin-bottom: 4px; }
+  .grand-item .value { font-size: 1.4rem; font-weight: 700; }
+  .note-box { margin-top: 24px; padding: 16px 20px; background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; font-size: 0.88rem; color: #92400e; }
+  .note-box strong { color: #b45309; }
+  .chart-bar-container { margin: 8px 0 4px; height: 28px; background: #f3f4f6; border-radius: 6px; overflow: hidden; }
+  .chart-bar { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 0.75rem; font-weight: 600; color: #fff; min-width: 40px; }
+  .year-col { text-align: center; width: 80px; }
+  .new-badge { display: inline-block; background: #fef3c7; color: #92400e; font-size: 0.7rem; padding: 1px 6px; border-radius: 8px; margin-left: 4px; }
+
+
+/* Page break & divider */
+.section-divider {
+  border: none;
+  border-top: 3px dashed #cbd5e1;
+  margin: 48px 0 32px;
+}
+.section-title {
+  font-size: 2rem;
+  text-align: center;
+  color: #1e3a5f;
+  margin: 32px 0 8px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== SECTION 1: 年度时间流水 ========== -->
+
+
+<h1>📋 Repairs & Fixed Assets & Improvements — 年度时间流水</h1>
+<p class="subtitle">2843 Piantino Circle, San Diego, CA 92108</p>
+<p class="address">Owner: Lilong Ge | 涵盖: 2015-2025 | 生成日期: 2026-06-26</p>
+<p class="note"><span class="new-badge">已更新</span> 补读了所有手机截图/发票图片，增加了逐项明细</p>
+
+<!-- 2015 -->
+<h2>2015 年</h2>
+<p class="note">来源: Utopia Management Owner Packet 2015 (Dec 2015 period, FY2015 Year-to-Date)</p>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>12/16/2015</td><td>Kitchen sink plumbing repair — 厨房水槽排水 (Utopia Plumbing)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$301.50</td><td class="source">Owner packet 2015.pdf</td></tr>
+<tr><td>FY2015</td><td>Utopia Maintenance (全年合计)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$182.00</td><td class="source">Owner packet 2015.pdf</td></tr>
+<tr><td>FY2015</td><td>A/C & Heat Repair</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$116.00</td><td class="source">Owner packet 2015.pdf</td></tr>
+<tr><td>FY2015</td><td>Maintenance Supplies</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$29.14</td><td class="source">Owner packet 2015.pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2015 年小计</td><td class="year-total">$628.64</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2016 -->
+<h2>2016 年</h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>FY2016</td><td>Utopia Maintenance</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$644.00</td><td class="source">Owner packet 2016.pdf</td></tr>
+<tr><td>FY2016</td><td>A/C & Heat Repair</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$202.00</td><td class="source">Owner packet 2016.pdf</td></tr>
+<tr><td>FY2016</td><td>Painting (刷漆)</td><td><span class="type-tag type-improvement">改善</span></td><td class="amount">$430.00</td><td class="source">Owner packet 2016.pdf</td></tr>
+<tr><td>FY2016</td><td>Appliance (家电维修/更换)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$50.00</td><td class="source">Owner packet 2016.pdf</td></tr>
+<tr><td>FY2016</td><td>Cleaning</td><td><span class="type-tag type-cleaning">清洁</span></td><td class="amount">$95.00</td><td class="source">Owner packet 2016.pdf</td></tr>
+<tr><td>FY2016</td><td>Maintenance Supplies</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$81.72</td><td class="source">Owner packet 2016.pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2016 年小计</td><td class="year-total">$1,502.72</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2017 -->
+<h2>2017 年</h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>FY2017</td><td>Utopia Maintenance</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$168.00</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Subcontract Maintenance (外包维修)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$177.20</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Misc Maintenance (杂项维修)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$2,071.72</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Painting</td><td><span class="type-tag type-improvement">改善</span></td><td class="amount">$575.00</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Appliance</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$185.60</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Cleaning</td><td><span class="type-tag type-cleaning">清洁</span></td><td class="amount">$185.00</td><td class="source">Owner packet 2017.pdf</td></tr>
+<tr><td>FY2017</td><td>Maintenance Supplies</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$13.45</td><td class="source">Owner packet 2017.pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2017 年小计</td><td class="year-total">$3,375.97</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2018 -->
+<h2>2018 年 <span class="new-badge">支出最大年</span></h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>FY2018</td><td>Subcontract Maintenance (外包大修)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$7,220.81</td><td class="source">Owner packet2018.pdf</td></tr>
+<tr><td>FY2018</td><td>Plumbing (水管维修)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$1,865.00</td><td class="source">Owner packet2018.pdf</td></tr>
+<tr><td>FY2018</td><td>Utopia Plumbing and Electric</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$213.00</td><td class="source">Owner packet2018.pdf</td></tr>
+<tr><td>FY2018</td><td>A/C & Heat Repair</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$145.00</td><td class="source">Owner packet2018.pdf</td></tr>
+<tr><td>FY2018</td><td>Maintenance Supplies</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$29.55</td><td class="source">Owner packet2018.pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2018 年小计</td><td class="year-total">$9,473.36</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2019 -->
+<h2>2019 年</h2>
+<p class="note">来源: Utopia Management 2019 Annual Cash Flow Report (全年)</p>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>2019</td><td>Utopia Maintenance</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$1,400.00</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Subcontract Maintenance</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$834.35</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Utopia Plumbing and Electric</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$568.00</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Painting</td><td><span class="type-tag type-improvement">改善</span></td><td class="amount">$1,050.00</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Carpet Cleaning</td><td><span class="type-tag type-cleaning">清洁</span></td><td class="amount">$106.35</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Appliance</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$26.50</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+<tr><td>2019</td><td>Maintenance Supplies</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$239.27</td><td class="source">Jan 01, 2019 to Dec 31, 2019.pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2019 年小计</td><td class="year-total">$4,224.47</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2020 -->
+<h2>2020 年</h2>
+<p class="note">来源: Utopia Management Owner Statements Jan-Mar 2020 (管理公司于3月停止管理; 物业空置转租)</p>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>01/09/2020</td><td>Deep Cleaning — 全屋深度清洁 (West Coast Cleaning Pros)</td><td><span class="type-tag type-cleaning">清洁</span></td><td class="amount">$230.00</td><td class="source">Owner Packet (Jan 2020).pdf</td></tr>
+<tr><td>01/17/2020</td><td>Maintenance Supplies — 马桶翻盖/门铰链/LED灯泡/玻璃刮刀 (Home Depot)</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$83.55</td><td class="source">Owner Packet (Jan 2020).pdf</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2020 年小计</td><td class="year-total">$313.55</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2022 -->
+<h2>2022 年</h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>02/15/2022</td><td>Kitchen sink garbage disposal replacement — 厨房垃圾处理器更换 (从房租扣除)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$230.00</td><td class="source">2022-2025 income and expense.xlsx</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2022 年小计</td><td class="year-total">$230.00</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2023 -->
+<h2>2023 年</h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>07/2023</td><td>Fixed sink + AC condensation drain (Ming's A/C, Invoice #428) — 主卧洗手池+空调冷凝水排水管</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$235.00</td><td class="source">微信图片_Invoice428.jpg</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2023 年小计</td><td class="year-total">$235.00</td><td></td></tr></tfoot>
+</table>
+
+<!-- 2024 -->
+<h2>2024 年 <span class="new-badge">含逐项发票明细</span></h2>
+<p class="note">来源: 2022-2025 income and expense.xlsx + Yuan Construction发票 + Ming's A/C发票 + Home Depot收据 + Robert Pigeon工单 + Zelle支付记录截图</p>
+
+<h3 class="subitem">📺 家电/固定资产购置</h3>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2024</td><td>Microwave + Dishwasher — 微波炉&洗碗机 (无收据, $1,000 credit已给租客)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$1,000.00</td><td class="source">Excel + 微信聊天截图</td></tr>
+<tr><td>03/18/2024</td><td>Cosimo 30" Range Hood — 抽油烟机 (Home Depot Order #WG57649618, $259.99+$20.15税)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$280.14</td><td class="source">Home Depot Order Confirmation 截图</td></tr>
+<tr><td>2024</td><td>Dishwasher + Dryer — 洗碗机&烘干机 (从房租扣除 $1,089)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$1,089.00</td><td class="source">Excel + Lowe's Dryer Order 截图</td></tr>
+</tbody>
+</table>
+
+<h3 class="subitem">🔧 4/7/2024 综合翻修工程 (Yuan Construction Invoice) <span class="new-badge">逐项明细</span></h3>
+<p class="detail-note">总发票 $3,760 — Cindy垫付 $4,350.14 (含洗地毯$300+油烟机$280.14)，房租扣$4,000 + Zelle报销$350.14</p>
+<table>
+<thead><tr><th>#</th><th>项目描述</th><th>类型</th><th>金额</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Toilet paper holder + Towel rack (安装卫生纸架+毛巾架)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$40.00</td></tr>
+<tr><td>2</td><td>Repair wardrobe light (修衣柜灯)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$100.00</td></tr>
+<tr><td>3</td><td>Change faucet (换水龙头)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$150.00</td></tr>
+<tr><td>4</td><td>Repair toilet leak (修马桶漏水)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$200.00</td></tr>
+<tr><td>5</td><td>Sink leak repair (修水槽漏水)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$80.00</td></tr>
+<tr><td>6</td><td>Install range hood (安装抽油烟机)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$300.00</td></tr>
+<tr><td>7</td><td>Touch up (墙面修补刷漆)</td><td><span class="type-tag type-improvement">改善</span></td><td class="amount">$700.00</td></tr>
+<tr><td>8</td><td>Install 3 fans (安装3台风扇)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$300.00</td></tr>
+<tr><td>9</td><td>Home Depot materials (材料费)</td><td><span class="type-tag type-supplies">耗材</span></td><td class="amount">$990.00</td></tr>
+<tr><td>10</td><td>Mirror (镜子)</td><td><span class="type-tag type-appliance">家电</span></td><td class="amount">$550.00</td></tr>
+<tr><td>11</td><td>Mirror install fees (安装费)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$350.00</td></tr>
+<tr class="subtotal-row"><td colspan="3">Yuan Construction 小计</td><td class="amount">$3,760.00</td></tr>
+</tbody>
+</table>
+
+<h3 class="subitem">🔧 其他维修 & 清洁</h3>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>04/15/2024</td><td>Wash carpet — 洗地毯 (退给租客)</td><td><span class="type-tag type-cleaning">清洁</span></td><td class="amount">$300.00</td><td class="source">Excel + 微信聊天截图</td></tr>
+<tr><td>04/19/2024</td><td>Robert Pigeon Plumbing — 换主水阀门+2个角阀+水龙头 (Work Order #10966)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$792.42</td><td class="source">Robert Pigeon工单 + Zelle截图</td></tr>
+<tr><td>04/15/2024</td><td>Unclog master bath — 主卧浴室疏通 (退给租客)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$80.00</td><td class="source">微信聊天截图</td></tr>
+<tr><td>05/06/2024</td><td>Ming's A/C — Fixed blower fan relay (鼓风机继电器) (Invoice #733)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$225.00</td><td class="source">Ming's A/C Invoice #733 截图</td></tr>
+</tbody>
+</table>
+<tfoot><tr><td colspan="3" class="year-total">2024 年总小计</td><td class="year-total">$7,526.56</td><td></td></tr></tfoot>
+
+<!-- 2025 -->
+<h2>2025 年 <span class="new-badge">含截图确认</span></h2>
+<table>
+<thead><tr><th>日期</th><th>项目描述</th><th>类型</th><th>金额</th><th>来源文件</th></tr></thead>
+<tbody>
+<tr><td>02/25/2025</td><td>Robert Pigeon Plumbing — Fixed leak (漏水修复) (Zelle $181.93)</td><td><span class="type-tag type-repair">维修</span></td><td class="amount">$181.93</td><td class="source">Zelle截图 + 微信图片_151</td></tr>
+<tr><td>07/01/2025</td><td>HOA Special Assessment (5%) — Escala Master HOA Account 1042</td><td><span class="type-tag type-hoa">HOA评估</span></td><td class="amount">$194.30</td><td class="source">hoa fee-account1042.xlsx</td></tr>
+</tbody>
+<tfoot><tr><td colspan="3" class="year-total">2025 年小计</td><td class="year-total">$376.23</td><td></td></tr></tfoot>
+</table
+
+<!-- ========== SECTION 2: 项目分类汇总 ========== -->
+<hr class="section-divider">
+<div class="section-title">📊 第二部分 · 项目分类汇总</div>
+
+
+
+<h1>📊 Repairs & Fixed Assets & Improvements — 项目分类汇总</h1>
+<p class="subtitle">2843 Piantino Circle, San Diego, CA 92108</p>
+<p class="address">Owner: Lilong Ge | 按项目类别汇总 | 2026-06-26 <span class="new-badge">含所有截图/发票明细</span></p>
+
+<!-- Quick Summary -->
+<div class="summary-grid">
+  <div class="summary-card"><h3>🔧 维修 (Repairs)</h3><div class="big-number c-red">$19,143</div><div style="color:#6b7280;font-size:0.82rem;">水暖/电气/空调/杂项</div></div>
+  <div class="summary-card"><h3>📺 家电/固定资产</h3><div class="big-number c-purple">$3,411</div><div style="color:#6b7280;font-size:0.82rem;">微波炉/洗碗机/烘干机/油烟机/镜子/垃圾处理器</div></div>
+  <div class="summary-card"><h3>🏠 改善 (Improvements)</h3><div class="big-number c-blue">$2,755</div><div style="color:#6b7280;font-size:0.82rem;">刷漆 Painting + 墙面修补Touch up</div></div>
+  <div class="summary-card"><h3>🛠 维修耗材 (Supplies)</h3><div class="big-number c-teal">$1,467</div><div style="color:#6b7280;font-size:0.82rem;">Home Depot材料 + 杂项耗材</div></div>
+  <div class="summary-card"><h3>🧹 清洁 (Cleaning)</h3><div class="big-number c-green">$916</div><div style="color:#6b7280;font-size:0.82rem;">深度清洁/地毯清洗</div></div>
+  <div class="summary-card"><h3>🏢 HOA Special</h3><div class="big-number c-amber">$194</div><div style="color:#6b7280;font-size:0.82rem;">2025年特别分摊费</div></div>
+</div>
+
+<!-- Repairs -->
+<h2>🔧 维修 (Repairs) — 合计 $19,142.93</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2015</td><td>Kitchen sink plumbing repair</td><td class="amount">$301.50</td><td>Owner packet 2015.pdf</td></tr>
+<tr><td>2015</td><td>Utopia Maintenance + A/C Repair</td><td class="amount">$298.00</td><td>Owner packet 2015.pdf</td></tr>
+<tr><td>2016</td><td>Utopia Maintenance + A/C Repair</td><td class="amount">$846.00</td><td>Owner packet 2016.pdf</td></tr>
+<tr><td>2017</td><td>所有维修（Utopia+外包+杂项）</td><td class="amount">$2,416.92</td><td>Owner packet 2017.pdf</td></tr>
+<tr><td>2018</td><td>Subcontract + Plumbing + P&E + A/C</td><td class="amount">$9,443.81</td><td>Owner packet2018.pdf</td></tr>
+<tr><td>2019</td><td>Utopia + Subcontract + P&E</td><td class="amount">$2,802.35</td><td>2019 Annual Report</td></tr>
+<tr><td>2023</td><td>Sink + AC drain (Ming's A/C)</td><td class="amount">$235.00</td><td>Invoice #428 截图</td></tr>
+<tr><td>2024</td><td>Yuan: 卫生纸架+衣柜灯+水龙头+马桶+水槽+油烟机安装+风扇+镜子安装</td><td class="amount">$1,520.00</td><td>Yuan Construction 发票</td></tr>
+<tr><td>2024</td><td>Robert Pigeon: 主水阀门+角阀+水龙头</td><td class="amount">$792.42</td><td>工单 + Zelle截图</td></tr>
+<tr><td>2024</td><td>Unclog master bath</td><td class="amount">$80.00</td><td>微信截图</td></tr>
+<tr><td>2024</td><td>Ming's A/C: 鼓风机继电器</td><td class="amount">$225.00</td><td>Invoice #733 截图</td></tr>
+<tr><td>2025</td><td>Robert Pigeon: 漏水修复</td><td class="amount">$181.93</td><td>Zelle截图</td></tr>
+<tr class="subtotal-row"><td colspan="2">维修 小计</td><td class="amount">$19,142.93</td><td></td></tr>
+</tbody>
+</table>
+
+<!-- Improvements -->
+<h2>🏠 改善 (Improvements — Painting & Touch up) — 合计 $2,755.00</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2016</td><td>Painting</td><td class="amount">$430.00</td><td>Owner packet 2016.pdf</td></tr>
+<tr><td>2017</td><td>Painting</td><td class="amount">$575.00</td><td>Owner packet 2017.pdf</td></tr>
+<tr><td>2019</td><td>Painting</td><td class="amount">$1,050.00</td><td>2019 Annual Report</td></tr>
+<tr><td>2024</td><td>Touch up (墙面修补刷漆) — Yuan Construction</td><td class="amount">$700.00</td><td>Yuan Construction 发票</td></tr>
+<tr class="subtotal-row"><td colspan="2">改善 小计</td><td class="amount">$2,755.00</td><td></td></tr>
+</tbody>
+</table>
+
+<!-- Appliances -->
+<h2>📺 家电 / 固定资产 — 合计 $3,411.24</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2016</td><td>Appliance</td><td class="amount">$50.00</td><td>Owner packet 2016.pdf</td></tr>
+<tr><td>2017</td><td>Appliance</td><td class="amount">$185.60</td><td>Owner packet 2017.pdf</td></tr>
+<tr><td>2019</td><td>Appliance</td><td class="amount">$26.50</td><td>2019 Annual Report</td></tr>
+<tr><td>2022</td><td>Garbage disposal (垃圾处理器)</td><td class="amount">$230.00</td><td>Excel</td></tr>
+<tr><td>2024</td><td>Microwave + Dishwasher ($1,000 credit)</td><td class="amount">$1,000.00</td><td>Excel + 微信截图</td></tr>
+<tr><td>2024</td><td>Range hood (Home Depot)</td><td class="amount">$280.14</td><td>Home Depot订单截图</td></tr>
+<tr><td>2024</td><td>Dishwasher + Dryer (从房租扣除)</td><td class="amount">$1,089.00</td><td>Excel + Lowe's截图</td></tr>
+<tr><td>2024</td><td>Mirror (Yuan Construction)</td><td class="amount">$550.00</td><td>Yuan Construction 发票</td></tr>
+<tr class="subtotal-row"><td colspan="2">家电/固定资产 小计</td><td class="amount">$3,411.24</td><td></td></tr>
+</tbody>
+</table>
+
+<!-- Supplies -->
+<h2>🛠 维修耗材 (Maintenance Supplies) — 合计 $1,466.68</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2015</td><td>Maintenance Supplies</td><td class="amount">$29.14</td><td>Owner packet 2015.pdf</td></tr>
+<tr><td>2016</td><td>Maintenance Supplies</td><td class="amount">$81.72</td><td>Owner packet 2016.pdf</td></tr>
+<tr><td>2017</td><td>Maintenance Supplies</td><td class="amount">$13.45</td><td>Owner packet 2017.pdf</td></tr>
+<tr><td>2018</td><td>Maintenance Supplies</td><td class="amount">$29.55</td><td>Owner packet2018.pdf</td></tr>
+<tr><td>2019</td><td>Maintenance Supplies</td><td class="amount">$239.27</td><td>2019 Annual Report</td></tr>
+<tr><td>2020</td><td>Home Depot: 马桶翻盖/门铰链/LED/刮刀</td><td class="amount">$83.55</td><td>Owner Packet (Jan 2020).pdf</td></tr>
+<tr><td>2024</td><td>Home Depot materials (Yuan代购材料费)</td><td class="amount">$990.00</td><td>Yuan Construction 发票</td></tr>
+<tr class="subtotal-row"><td colspan="2">维修耗材 小计</td><td class="amount">$1,466.68</td><td></td></tr>
+</tbody>
+</table>
+
+<!-- Cleaning -->
+<h2>🧹 清洁 (Cleaning) — 合计 $916.35</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2016</td><td>Cleaning</td><td class="amount">$95.00</td><td>Owner packet 2016.pdf</td></tr>
+<tr><td>2017</td><td>Cleaning</td><td class="amount">$185.00</td><td>Owner packet 2017.pdf</td></tr>
+<tr><td>2019</td><td>Carpet Cleaning</td><td class="amount">$106.35</td><td>2019 Annual Report</td></tr>
+<tr><td>2020</td><td>Deep Cleaning (West Coast Cleaning Pros)</td><td class="amount">$230.00</td><td>Owner Packet (Jan 2020).pdf</td></tr>
+<tr><td>2024</td><td>Wash carpet</td><td class="amount">$300.00</td><td>Excel + 微信截图</td></tr>
+<tr class="subtotal-row"><td colspan="2">清洁 小计</td><td class="amount">$916.35</td><td></td></tr>
+</tbody>
+</table>
+
+<!-- HOA -->
+<h2>🏢 HOA Special Assessment — $194.30</h2>
+<table>
+<thead><tr><th>年份</th><th>项目</th><th>金额</th><th>来源</th></tr></thead>
+<tbody>
+<tr><td>2025</td><td>5% Special Assessment (Escala Master HOA Acct 1042)</td><td class="amount">$194.30</td><td>hoa fee-account1042.xlsx</td></tr>
+</tbody>
+</table>
+
+<!-- Grand Total -->
+<div class="grand-total-box">
+  <h2>📌 总汇总 (2015-2025)</h2>
+  <div class="grand-grid">
+    <div class="grand-item"><div class="label">维修 Repairs</div><div class="value">$19,143</div></div>
+    <div class="grand-item"><div class="label">改善 Improvements</div><div class="value">$2,755</div></div>
+    <div class="grand-item"><div class="label">家电 Appliances</div><div class="value">$3,411</div></div>
+    <div class="grand-item"><div class="label">清洁 Cleaning</div><div class="value">$916</div></div>
+    <div class="grand-item"><div class="label">耗材 Supplies</div><div class="value">$1,467</div></div>
+    <div class="grand-item"><div class="label">HOA特别评估</div><div class="value">$194</div></div>
+  </div>
+  <div style="text-align:center; margin-top: 20px; font-size: 1.6rem; font-weight: 800;">Grand Total: $27,886.50</div>
+  <div style="text-align:center; margin-top: 4px; font-size: 0.85rem; opacity: 0.7;">(已排除HOA月费、物业税、保险、管理费)</div>
+</div>
+
+<!-- Yearly Trend -->
+<h2>📈 各年份支出趋势</h2>
+<table>
+<thead><tr><th class="year-col">年份</th><th>总金额</th><th>占比</th><th>趋势图</th></tr></thead>
+<tbody>
+<tr><td class="year-col">2015</td><td class="amount">$628.64</td><td class="amount">2.3%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:6.6%;background:#dc2626;">$629</div></div></td></tr>
+<tr><td class="year-col">2016</td><td class="amount">$1,502.72</td><td class="amount">5.4%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:15.9%;background:#dc2626;">$1,503</div></div></td></tr>
+<tr><td class="year-col">2017</td><td class="amount">$3,375.97</td><td class="amount">12.1%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:35.6%;background:#dc2626;">$3,376</div></div></td></tr>
+<tr><td class="year-col">2018</td><td class="amount">$9,473.36</td><td class="amount">34.0%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:100%;background:#dc2626;">$9,473</div></div></td></tr>
+<tr><td class="year-col">2019</td><td class="amount">$4,224.47</td><td class="amount">15.2%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:44.6%;background:#2563eb;">$4,224</div></div></td></tr>
+<tr><td class="year-col">2020</td><td class="amount">$313.55</td><td class="amount">1.1%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:3.3%;background:#0891b2;">$314</div></div></td></tr>
+<tr><td class="year-col">2022</td><td class="amount">$230.00</td><td class="amount">0.8%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:2.4%;background:#7c3aed;">$230</div></div></td></tr>
+<tr><td class="year-col">2023</td><td class="amount">$235.00</td><td class="amount">0.8%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:2.5%;background:#dc2626;">$235</div></div></td></tr>
+<tr><td class="year-col">2024</td><td class="amount">$7,526.56</td><td class="amount">27.0%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:79.4%;background:#7c3aed;">$7,527</div></div></td></tr>
+<tr><td class="year-col">2025</td><td class="amount">$376.23</td><td class="amount">1.3%</td><td><div class="chart-bar-container"><div class="chart-bar" style="width:4.0%;background:#f59e0b;">$376</div></div></td></tr>
+</tbody>
+</table>
+
+<div class="note-box">
+  <strong>⚠️ 税务提醒：</strong><br>
+  • <strong>Repairs（维修）</strong>：可在当年扣除<br>
+  • <strong>Improvements（改善）</strong>：Painting & Touch up 可能需资本化折旧<br>
+  • <strong>Appliances（家电）</strong>：新购置需折旧（微波炉/洗碗机/烘干机/油烟机/镜子）；维修可当年扣除（垃圾处理器/2016-2019小额）<br>
+  • <strong>2024 Yuan Construction</strong>：$3,760综合翻修中包括维修($1,520)、改善($700)、家电($550)、耗材($990)——建议税务筹划师分项处理<br>
+  • <strong>HOA Special Assessment</strong>：确认用途以确定扣除方式<br>
+  • 建议与CPA确认各项分类
+</div>
+
+<p style="margin-top: 32px; color: #9ca3af; font-size: 0.82rem;">
+📌 数据来源: IMA知识库「美国房产」全部文件(含PDF+Excel+手机截图/发票照片) | 分析日期: 2026-06-26
+</p>
+
+
+
+<!-- ========== GRAND TOTAL ========== -->
+<!-- Grand Total -->
+<div class="grand-total">
+  总计 (2015 - 2025): $27,886.50
+</div>
+
+<p style="margin-top: 32px; color: #9ca3af; font-size: 0.82rem;">
+📌 <strong>说明:</strong><br>
+• 2013-2014: Owner Packet只覆盖年末1个月，FYTD Income Statement中无维修/改善类目。如期间有业主自付维修请补充。<br>
+• 2021年: 无管理公司报表，仅有租赁合同文件，无维修记录。<br>
+• 部分年度(2015-2019)数据来自管理公司年度汇总，具体单笔发票日期不可逐一拆分。<br>
+• 2024年: 通过Yuan Construction发票、Ming's A/C发票、Home Depot收据、Robert Pigeon工单、Zelle截图确认了所有明细。<br>
+• HOA常规月费($150-180/月)、物业税、保险、管理费等运维费用不包含在本报告中。<br>
+• 数据来源: IMA知识库「美国房产」全部文件(含PDF+Excel+手机截图/发票照片) | 分析日期: 2026-06-26
+</p>
+
+</div>
+</body>
+</html>
