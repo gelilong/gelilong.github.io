@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>记牌游戏</title>
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+  min-height: 100%;
+  background: #0d1117;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", sans-serif;
+  color: #e6edf3;
+  overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* ── Layout ── */
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem 0.8rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* ── Header ── */
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #f0c040;
+  text-shadow: 0 0 18px rgba(240,192,64,0.4);
+}
+.scoreboard {
+  display: flex;
+  gap: 1rem;
+}
+.score-box { text-align: center; }
+.score-label { font-size: 0.65rem; color: #8b949e; letter-spacing: 1px; text-transform: uppercase; }
+.score-value { font-size: 1.1rem; font-weight: 700; color: #f0c040; }
+
+/* ── Phase label ── */
+.phase-label {
+  font-size: 0.85rem;
+  color: #8b949e;
+  letter-spacing: 1px;
+  height: 1.2em;
+}
+
+/* ── Card row (the 6 dealt cards) ── */
+.card-row {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.playing-card {
+  width: 68px;
+  height: 98px;
+  border-radius: 8px;
+  border: 1.5px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+  cursor: default;
+  position: relative;
+  transition: transform 0.4s ease, opacity 0.3s;
+  perspective: 600px;
+  flex-shrink: 0;
+}
+
+.playing-card.face-up {
+  background: #ffffff;
+  color: inherit;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+.playing-card.face-down {
+  background: linear-gradient(135deg, #1a2744 0%, #0d1b3e 50%, #1a2744 100%);
+  border: 1.5px solid rgba(99,130,200,0.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+.playing-card.face-down::after {
+  content: '🂠';
+  font-size: 3rem;
+  opacity: 0.25;
+}
+
+.card-rank {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+  position: absolute;
+  top: 5px;
+  left: 7px;
+}
+.card-suit {
+  font-size: 2rem;
+  line-height: 1;
+}
+.card-rank-bot {
+  font-size: 1.1rem;
+  font-weight: 800;
+  line-height: 1;
+  position: absolute;
+  bottom: 5px;
+  right: 7px;
+  transform: rotate(180deg);
+}
+.red { color: #d63031; }
+.black { color: #0d1117; }
+
+/* Flip animation */
+@keyframes flipIn {
+  0%   { transform: rotateY(90deg); opacity: 0; }
+  100% { transform: rotateY(0deg);  opacity: 1; }
+}
+.flip-in { animation: flipIn 0.4s ease forwards; }
+
+/* ── Timer bar ── */
+.timer-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.timer-bar {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #f0c040, #e07b00);
+  transition: width 0.1s linear;
+  width: 100%;
+}
+
+/* ── Action buttons ── */
+.btn-group {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  padding: 0.65rem 1.5rem;
+  border-radius: 50px;
+  border: none;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.5px;
+}
+.btn:active { transform: scale(0.95); }
+.btn-primary {
+  background: linear-gradient(135deg, #f0c040, #d97706);
+  color: #0d1117;
+  box-shadow: 0 4px 16px rgba(240,192,64,0.3);
+}
+.btn-primary:hover { box-shadow: 0 6px 24px rgba(240,192,64,0.5); }
+.btn-ghost {
+  background: rgba(255,255,255,0.07);
+  color: #c9d1d9;
+  border: 1px solid rgba(255,255,255,0.12);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.12); }
+.btn-sm {
+  padding: 0.45rem 1rem;
+  font-size: 0.82rem;
+}
+.btn-danger {
+  background: rgba(248,81,73,0.15);
+  color: #f85149;
+  border: 1px solid rgba(248,81,73,0.3);
+}
+
+/* ── Time selector ── */
+.time-selector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+}
+.time-selector p {
+  font-size: 0.9rem;
+  color: #8b949e;
+}
+.time-options {
+  display: flex;
+  gap: 0.5rem;
+}
+.time-btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 8px;
+  border: 1.5px solid rgba(240,192,64,0.25);
+  background: rgba(240,192,64,0.05);
+  color: #f0c040;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.time-btn.selected, .time-btn:hover {
+  background: rgba(240,192,64,0.2);
+  border-color: rgba(240,192,64,0.6);
+}
+
+/* ── Guess grid (all 52 cards) ── */
+.guess-section {
+  width: 100%;
+}
+.guess-title {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #8b949e;
+  margin-bottom: 0.6rem;
+}
+.guess-remaining {
+  font-weight: 700;
+  color: #f0c040;
+}
+
+.suit-group {
+  margin-bottom: 0.5rem;
+}
+.suit-label {
+  font-size: 0.75rem;
+  color: #8b949e;
+  margin-bottom: 0.3rem;
+  letter-spacing: 1px;
+  padding-left: 2px;
+}
+.rank-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.mini-card {
+  width: 40px;
+  height: 54px;
+  border-radius: 5px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+  position: relative;
+  flex-shrink: 0;
+}
+.mini-card .mc-rank {
+  font-size: 0.75rem;
+  font-weight: 800;
+  line-height: 1;
+  position: absolute;
+  top: 3px;
+  left: 4px;
+}
+.mini-card .mc-suit {
+  font-size: 1.15rem;
+}
+.mini-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+.mini-card.selected {
+  border-color: #f0c040;
+  box-shadow: 0 0 0 2px rgba(240,192,64,0.4), 0 4px 12px rgba(0,0,0,0.4);
+  transform: translateY(-3px);
+}
+.mini-card.disabled {
+  opacity: 0.35;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Result section ── */
+.result-row {
+  display: flex;
+  gap: 0.45rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.result-card {
+  width: 68px;
+  height: 98px;
+  border-radius: 8px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-shrink: 0;
+}
+.result-card .card-rank  { font-size: 1.1rem; font-weight: 800; position: absolute; top: 5px; left: 7px; }
+.result-card .card-suit  { font-size: 2rem; }
+.result-card .card-rank-bot { font-size: 1.1rem; font-weight: 800; position: absolute; bottom: 5px; right: 7px; transform: rotate(180deg); }
+.result-card.correct {
+  box-shadow: 0 0 0 3px #3fb950, 0 4px 16px rgba(63,185,80,0.4);
+}
+.result-card.wrong {
+  box-shadow: 0 0 0 3px #f85149, 0 4px 16px rgba(248,81,73,0.4);
+  opacity: 0.75;
+}
+
+.result-badge {
+  position: absolute;
+  top: -8px; right: -8px;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  z-index: 2;
+}
+.badge-correct { background: #3fb950; color: #fff; }
+.badge-wrong   { background: #f85149; color: #fff; }
+
+.result-summary {
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+.result-summary .pts {
+  color: #f0c040;
+  font-size: 1.4rem;
+}
+
+/* ── History log ── */
+.history {
+  width: 100%;
+  max-height: 120px;
+  overflow-y: auto;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 0.6rem;
+}
+.history-title {
+  font-size: 0.7rem;
+  color: #8b949e;
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+}
+.history-item {
+  font-size: 0.78rem;
+  color: #8b949e;
+  padding: 0.1rem 0;
+}
+.history-item span { color: #f0c040; font-weight: 700; }
+
+/* ── Animations ── */
+@keyframes pop {
+  0%   { transform: scale(0.8); opacity: 0; }
+  60%  { transform: scale(1.1); }
+  100% { transform: scale(1);   opacity: 1; }
+}
+.pop { animation: pop 0.35s ease forwards; }
+
+.hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="title">🃏 记牌</div>
+    <div class="scoreboard">
+      <div class="score-box">
+        <div class="score-label">得分</div>
+        <div class="score-value" id="totalScore">0</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">最高</div>
+        <div class="score-value" id="bestScore">0</div>
+      </div>
+      <div class="score-box">
+        <div class="score-label">轮次</div>
+        <div class="score-value" id="roundNum">0</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Phase label -->
+  <div class="phase-label" id="phaseLabel">选择记忆时间，开始游戏</div>
+
+  <!-- The 6 cards -->
+  <div class="card-row" id="cardRow"></div>
+
+  <!-- Timer bar -->
+  <div class="timer-wrap hidden" id="timerWrap">
+    <div class="timer-bar" id="timerBar"></div>
+  </div>
+
+  <!-- Time selector -->
+  <div class="time-selector" id="timeSel">
+    <p>你想记忆几秒？</p>
+    <div class="time-options">
+      <div class="time-btn selected" data-sec="3">3 秒</div>
+      <div class="time-btn" data-sec="5">5 秒</div>
+      <div class="time-btn" data-sec="10">10 秒</div>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="btn-group" id="actionBtns">
+    <button class="btn btn-primary" id="mainBtn">发牌 开始</button>
+    <button class="btn btn-danger btn-sm hidden" id="resetBtn">重新开始</button>
+  </div>
+
+  <!-- Guess grid -->
+  <div class="guess-section hidden" id="guessSection">
+    <div class="guess-title">选出你记住的 6 张牌 &nbsp;（已选 <span class="guess-remaining" id="selectedCount">0</span> / 6）</div>
+    <div id="suitGroups"></div>
+    <div class="btn-group" style="margin-top:0.8rem">
+      <button class="btn btn-primary hidden" id="submitBtn">提交答案</button>
+      <button class="btn btn-ghost btn-sm" id="clearSelBtn">清除选择</button>
+    </div>
+  </div>
+
+  <!-- Result section -->
+  <div class="hidden" id="resultSection">
+    <div class="result-row" id="resultRow"></div>
+    <div class="result-summary" id="resultSummary" style="margin-top:0.8rem"></div>
+    <div class="btn-group" style="margin-top:0.8rem">
+      <button class="btn btn-primary" id="nextBtn">下一轮</button>
+      <button class="btn btn-danger btn-sm" id="newGameBtn">新游戏</button>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="history hidden" id="historyDiv">
+    <div class="history-title">历史记录</div>
+    <div id="historyList"></div>
+  </div>
+
+</div>
+
+<script>
+// ── Card data ──
+const SUITS = [
+  { sym: '♠', name: '黑桃', cls: 'black' },
+  { sym: '♥', name: '红心', cls: 'red'   },
+  { sym: '♣', name: '梅花', cls: 'black' },
+  { sym: '♦', name: '方块', cls: 'red'   },
+];
+const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+
+function allCards() {
+  const cards = [];
+  for (const s of SUITS) for (const r of RANKS) cards.push({ suit: s, rank: r });
+  return cards;
+}
+
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function cardId(c) { return c.suit.sym + c.rank; }
+
+// ── State ──
+let state = {
+  phase: 'setup',   // setup | memorize | guess | result
+  dealtCards: [],
+  selectedCards: new Set(),
+  memorySec: 3,
+  totalScore: 0,
+  bestScore: 0,
+  round: 0,
+  history: [],
+};
+
+// ── DOM refs ──
+const phaseLabel   = document.getElementById('phaseLabel');
+const cardRow      = document.getElementById('cardRow');
+const timerWrap    = document.getElementById('timerWrap');
+const timerBar     = document.getElementById('timerBar');
+const timeSel      = document.getElementById('timeSel');
+const actionBtns   = document.getElementById('actionBtns');
+const mainBtn      = document.getElementById('mainBtn');
+const resetBtn     = document.getElementById('resetBtn');
+const guessSection = document.getElementById('guessSection');
+const suitGroups   = document.getElementById('suitGroups');
+const selectedCount= document.getElementById('selectedCount');
+const submitBtn    = document.getElementById('submitBtn');
+const clearSelBtn  = document.getElementById('clearSelBtn');
+const resultSection= document.getElementById('resultSection');
+const resultRow    = document.getElementById('resultRow');
+const resultSummary= document.getElementById('resultSummary');
+const nextBtn      = document.getElementById('nextBtn');
+const newGameBtn   = document.getElementById('newGameBtn');
+const historyDiv   = document.getElementById('historyDiv');
+const historyList  = document.getElementById('historyList');
+const totalScoreEl = document.getElementById('totalScore');
+const bestScoreEl  = document.getElementById('bestScore');
+const roundNumEl   = document.getElementById('roundNum');
+
+// ── Time selector ──
+document.querySelectorAll('.time-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.memorySec = parseInt(btn.dataset.sec);
+  });
+});
+
+// ── Render a face-up card ──
+function makeFaceCard(card, cls = '') {
+  const el = document.createElement('div');
+  el.className = `playing-card face-up ${cls}`;
+  el.innerHTML = `
+    <div class="card-rank ${card.suit.cls}">${card.rank}</div>
+    <div class="card-suit ${card.suit.cls}">${card.suit.sym}</div>
+    <div class="card-rank-bot ${card.suit.cls}">${card.rank}</div>
+  `;
+  return el;
+}
+
+function makeFaceDown() {
+  const el = document.createElement('div');
+  el.className = 'playing-card face-down';
+  return el;
+}
+
+// ── Phase: SETUP ──
+function gotoSetup() {
+  state.phase = 'setup';
+  phaseLabel.textContent = '选择记忆时间，开始游戏';
+  cardRow.innerHTML = '';
+  // Show placeholder backs
+  for (let i = 0; i < 6; i++) cardRow.appendChild(makeFaceDown());
+  timeSel.classList.remove('hidden');
+  timerWrap.classList.add('hidden');
+  guessSection.classList.add('hidden');
+  resultSection.classList.add('hidden');
+  mainBtn.textContent = '发牌 开始';
+  mainBtn.classList.remove('hidden');
+  resetBtn.classList.add('hidden');
+}
+
+// ── Phase: MEMORIZE ──
+let timerInterval = null;
+
+function gotoMemorize() {
+  state.phase = 'memorize';
+  state.round++;
+  roundNumEl.textContent = state.round;
+
+  state.dealtCards = shuffle(allCards()).slice(0, 6);
+  state.selectedCards = new Set();
+
+  timeSel.classList.add('hidden');
+  mainBtn.classList.add('hidden');
+  resetBtn.classList.remove('hidden');
+  guessSection.classList.add('hidden');
+  resultSection.classList.add('hidden');
+
+  // Flip cards in with animation
+  cardRow.innerHTML = '';
+  state.dealtCards.forEach((card, i) => {
+    const el = makeFaceCard(card, 'flip-in');
+    el.style.animationDelay = `${i * 60}ms`;
+    cardRow.appendChild(el);
+  });
+
+  const sec = state.memorySec;
+  phaseLabel.textContent = `记住这 6 张牌！${sec} 秒后盖牌`;
+
+  timerWrap.classList.remove('hidden');
+  timerBar.style.width = '100%';
+  timerBar.style.background = 'linear-gradient(90deg, #f0c040, #e07b00)';
+
+  const start = performance.now();
+  const duration = sec * 1000;
+
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const elapsed = performance.now() - start;
+    const frac = Math.max(0, 1 - elapsed / duration);
+    timerBar.style.width = (frac * 100) + '%';
+    const remaining = Math.ceil((duration - elapsed) / 1000);
+    phaseLabel.textContent = `记住这 6 张牌！还剩 ${remaining} 秒`;
+    if (frac <= 0.3) {
+      timerBar.style.background = 'linear-gradient(90deg, #f85149, #c0392b)';
+    }
+    if (elapsed >= duration) {
+      clearInterval(timerInterval);
+      gotoGuess();
+    }
+  }, 80);
+}
+
+// ── Phase: GUESS ──
+function gotoGuess() {
+  state.phase = 'guess';
+  timerWrap.classList.add('hidden');
+  phaseLabel.textContent = '牌已盖上，你还记得哪 6 张？';
+
+  // Flip all to face-down
+  cardRow.innerHTML = '';
+  for (let i = 0; i < 6; i++) {
+    const el = makeFaceDown();
+    el.classList.add('flip-in');
+    el.style.animationDelay = `${i * 60}ms`;
+    cardRow.appendChild(el);
+  }
+
+  // Build 52-card grid
+  buildGuessGrid();
+  guessSection.classList.remove('hidden');
+  submitBtn.classList.add('hidden');
+  selectedCount.textContent = '0';
+}
+
+function buildGuessGrid() {
+  suitGroups.innerHTML = '';
+  SUITS.forEach(suit => {
+    const group = document.createElement('div');
+    group.className = 'suit-group';
+    group.innerHTML = `<div class="suit-label ${suit.cls}">${suit.sym} ${suit.name}</div>`;
+    const grid = document.createElement('div');
+    grid.className = 'rank-grid';
+    RANKS.forEach(rank => {
+      const mc = document.createElement('div');
+      mc.className = 'mini-card';
+      mc.dataset.id = suit.sym + rank;
+      mc.innerHTML = `<div class="mc-rank ${suit.cls}">${rank}</div><div class="mc-suit ${suit.cls}">${suit.sym}</div>`;
+      mc.addEventListener('click', () => toggleCard(mc, suit.sym + rank));
+      grid.appendChild(mc);
+    });
+    group.appendChild(grid);
+    suitGroups.appendChild(group);
+  });
+}
+
+function toggleCard(el, id) {
+  if (state.phase !== 'guess') return;
+  if (el.classList.contains('disabled')) return;
+
+  if (state.selectedCards.has(id)) {
+    state.selectedCards.delete(id);
+    el.classList.remove('selected');
+  } else {
+    if (state.selectedCards.size >= 6) return;
+    state.selectedCards.add(id);
+    el.classList.add('selected');
+  }
+
+  const count = state.selectedCards.size;
+  selectedCount.textContent = count;
+
+  // Disable unselected once 6 chosen
+  document.querySelectorAll('.mini-card').forEach(mc => {
+    if (!mc.classList.contains('selected')) {
+      mc.classList.toggle('disabled', count >= 6);
+    }
+  });
+
+  submitBtn.classList.toggle('hidden', count < 6);
+}
+
+clearSelBtn.addEventListener('click', () => {
+  state.selectedCards.clear();
+  document.querySelectorAll('.mini-card').forEach(mc => {
+    mc.classList.remove('selected', 'disabled');
+  });
+  selectedCount.textContent = '0';
+  submitBtn.classList.add('hidden');
+});
+
+submitBtn.addEventListener('click', gotoResult);
+
+// ── Phase: RESULT ──
+function gotoResult() {
+  state.phase = 'result';
+  guessSection.classList.add('hidden');
+  phaseLabel.textContent = '结果揭晓！';
+
+  const correctIds = new Set(state.dealtCards.map(cardId));
+  let correctCount = 0;
+  const guessed = [...state.selectedCards];
+
+  // Show the actual 6 cards with correct/wrong badges
+  resultRow.innerHTML = '';
+  state.dealtCards.forEach(card => {
+    const id = cardId(card);
+    const isGuessed = state.selectedCards.has(id);
+    if (isGuessed) correctCount++;
+
+    const rc = document.createElement('div');
+    rc.className = `result-card ${isGuessed ? 'correct' : 'wrong'} pop`;
+    rc.innerHTML = `
+      <div class="card-rank ${card.suit.cls}">${card.rank}</div>
+      <div class="card-suit ${card.suit.cls}">${card.suit.sym}</div>
+      <div class="card-rank-bot ${card.suit.cls}">${card.rank}</div>
+      <div class="result-badge ${isGuessed ? 'badge-correct' : 'badge-wrong'}">${isGuessed ? '✓' : '✗'}</div>
+    `;
+    resultRow.appendChild(rc);
+  });
+
+  // Scoring: base pts * time multiplier
+  const multiplier = state.memorySec === 3 ? 3 : state.memorySec === 5 ? 2 : 1;
+  const pts = correctCount * 10 * multiplier;
+  state.totalScore += pts;
+  if (state.totalScore > state.bestScore) {
+    state.bestScore = state.totalScore;
+    localStorage.setItem('mcBest', state.bestScore);
+  }
+  totalScoreEl.textContent = state.totalScore;
+  bestScoreEl.textContent  = state.bestScore;
+
+  const stars = correctCount === 6 ? '🌟 全对！' : correctCount >= 4 ? '👍 不错！' : correctCount >= 2 ? '😅 继续加油！' : '😢 再试试！';
+  resultSummary.innerHTML = `猜对 ${correctCount}/6 张 &nbsp;·&nbsp; <span class="pts">+${pts} 分</span> &nbsp; ${stars}<br><small style="color:#8b949e;font-size:0.75rem;">时间倍率 ×${multiplier}（${state.memorySec}秒）</small>`;
+
+  // Log history
+  state.history.unshift({ round: state.round, correct: correctCount, pts, sec: state.memorySec });
+  renderHistory();
+
+  resultSection.classList.remove('hidden');
+  historyDiv.classList.remove('hidden');
+}
+
+function renderHistory() {
+  historyList.innerHTML = state.history.slice(0, 10).map(h =>
+    `<div class="history-item">第${h.round}轮 · ${h.sec}秒 · ${h.correct}/6张 · <span>+${h.pts}分</span></div>`
+  ).join('');
+}
+
+// ── Buttons ──
+mainBtn.addEventListener('click', () => {
+  if (state.phase === 'setup') gotoMemorize();
+});
+
+nextBtn.addEventListener('click', () => {
+  resultSection.classList.add('hidden');
+  gotoMemorize();
+});
+
+newGameBtn.addEventListener('click', startNewGame);
+resetBtn.addEventListener('click', startNewGame);
+newGameBtn && newGameBtn.addEventListener('click', startNewGame);
+
+function startNewGame() {
+  clearInterval(timerInterval);
+  state.totalScore = 0;
+  state.round = 0;
+  state.history = [];
+  totalScoreEl.textContent = 0;
+  roundNumEl.textContent = 0;
+  historyDiv.classList.add('hidden');
+  historyList.innerHTML = '';
+  gotoSetup();
+}
+
+// ── Init ──
+state.bestScore = parseInt(localStorage.getItem('mcBest') || '0');
+bestScoreEl.textContent = state.bestScore;
+gotoSetup();
+</script>
+</body>
+</html>
